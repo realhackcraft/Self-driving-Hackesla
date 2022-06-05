@@ -5,13 +5,13 @@ networkCanvas.width = 0.5 * innerWidth;
 
 const carCtx = carCanvas.getContext("2d");
 const networkCtx = networkCanvas.getContext("2d");
-
-const road = new Road(carCanvas.width / 2, carCanvas.width * 0.9);
+const laneCount = 3;
+const road = new Road(carCanvas.width / 2, carCanvas.width * 0.9, laneCount);
 
 var drawRays = true;
 
 var death = 500;
-const N = 1000;
+const N = 100;
 var population = N;
 const cars = generateCars(N);
 let bestCar = cars[0];
@@ -19,20 +19,26 @@ if (localStorage.getItem("bestBrain")) {
   multiplyAndMutate(JSON.parse(localStorage.getItem("bestBrain")));
 }
 
-const traffic = [
-  new Car(road.getLaneCenter(1), -100, 30, 50, "DUMMY", 2, getRandomColor()),
-  new Car(road.getLaneCenter(0), -300, 30, 50, "DUMMY", 2, getRandomColor()),
-  new Car(road.getLaneCenter(2), -300, 30, 50, "DUMMY", 2, getRandomColor()),
-  new Car(road.getLaneCenter(0), -500, 30, 50, "DUMMY", 2, getRandomColor()),
-  new Car(road.getLaneCenter(1), -500, 30, 50, "DUMMY", 2, getRandomColor()),
-  new Car(road.getLaneCenter(1), -700, 30, 50, "DUMMY", 2, getRandomColor()),
-  new Car(road.getLaneCenter(2), -700, 30, 50, "DUMMY", 2, getRandomColor()),
-];
+const traffic = [];
+setInterval(() => {
+  traffic.push(
+    new Car(
+      road.getLaneCenter(Math.floor(Math.random() * laneCount)),
+      Math.floor(Math.random() * infinity) - 100,
+      30,
+      50,
+      "DUMMY",
+      2,
+      getRandomColor()
+    )
+  );
+}, 100);
 
 animate();
 
 function save() {
   localStorage.setItem("bestBrain", JSON.stringify(bestCar.brain));
+  location.reload();
 }
 
 function discard() {
@@ -50,7 +56,6 @@ function generateCars(N) {
 function animate(time) {
   if (death == 0 || population == 0) {
     save();
-    location.reload();
   } else {
     death--;
   }
@@ -65,10 +70,10 @@ function animate(time) {
   carCanvas.height = window.innerHeight;
   networkCanvas.height = window.innerHeight;
 
+  road.draw(carCtx);
   carCtx.save();
   carCtx.translate(0, -bestCar.y + carCanvas.height * 0.7);
 
-  road.draw(carCtx);
   for (let i = 0; i < traffic.length; i++) {
     traffic[i].draw(carCtx);
   }
