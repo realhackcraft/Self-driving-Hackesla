@@ -7,7 +7,7 @@ const carCtx = carCanvas.getContext("2d");
 const networkCtx = networkCanvas.getContext("2d");
 
 const road = new Road(carCanvas.width / 2, carCanvas.width * 0.9);
-const N = 500;
+const N = 1000;
 const cars = generateCars(N);
 const traffic = [
   new Car(road.getLaneCenter(2), -100, 30, 50, "DUMMY", 2),
