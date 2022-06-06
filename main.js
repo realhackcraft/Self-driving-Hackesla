@@ -6,7 +6,7 @@ networkCanvas.width = 0.5 * innerWidth;
 const carCtx = carCanvas.getContext("2d");
 const networkCtx = networkCanvas.getContext("2d");
 
-const laneCount = 3;
+const laneCount = 5;
 const road = new Road(carCanvas.width / 2, carCanvas.width * 0.9, laneCount);
 
 var drawRays = true;
@@ -25,7 +25,19 @@ if (localStorage.getItem("bestBrain")) {
   }
 }
 
-const traffic = [];
+const traffic = [
+  new Car(road.getLaneCenter(1), -400, 30, 50, "DUMMY", 2, getRandomColor()),
+  new Car(road.getLaneCenter(2), -600, 30, 50, "DUMMY", 2, getRandomColor()),
+  new Car(road.getLaneCenter(0), -700, 30, 50, "DUMMY", 2, getRandomColor()),
+  new Car(road.getLaneCenter(2), -900, 30, 50, "DUMMY", 2, getRandomColor()),
+  new Car(road.getLaneCenter(3), -900, 30, 50, "DUMMY", 2, getRandomColor()),
+  new Car(road.getLaneCenter(4), -900, 30, 50, "DUMMY", 2, getRandomColor()),
+  new Car(road.getLaneCenter(0), -1000, 30, 50, "DUMMY", 2, getRandomColor()),
+  new Car(road.getLaneCenter(1), -1100, 30, 50, "DUMMY", 2, getRandomColor()),
+  new Car(road.getLaneCenter(2), -1200, 30, 50, "DUMMY", 2, getRandomColor()),
+  new Car(road.getLaneCenter(3), -1300, 30, 50, "DUMMY", 2, getRandomColor()),
+  new Car(road.getLaneCenter(4), -1400, 30, 50, "DUMMY", 2, getRandomColor()),
+];
 setInterval(() => {
   traffic.push(
     new Car(
