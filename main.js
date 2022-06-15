@@ -8,11 +8,11 @@ const networkCtx = networkCanvas.getContext('2d');
 
 const laneCount = 5;
 const road = new Road(carCanvas.width / 2, carCanvas.width * 0.9, laneCount);
-
+var mouseDown = false;
 var drawRays = true;
 
 var death = 500;
-const N = 100;
+const N = 1000;
 var population = N;
 const cars = generateCars(N);
 let bestCar = cars[0];
@@ -25,22 +25,7 @@ if (localStorage.getItem('bestBrain')) {
 	}
 }
 
-const traffic = [
-	new Car(road.getLaneCenter(1), -400, 30, 50, 'DUMMY', 2, getRandomColor()),
-	new Car(road.getLaneCenter(2), -600, 30, 50, 'DUMMY', 2, getRandomColor()),
-	new Car(road.getLaneCenter(0), -700, 30, 50, 'DUMMY', 2, getRandomColor()),
-	new Car(road.getLaneCenter(2), -900, 30, 50, 'DUMMY', 2, getRandomColor()),
-	new Car(road.getLaneCenter(3), -900, 30, 50, 'DUMMY', 2, getRandomColor()),
-	new Car(road.getLaneCenter(4), -900, 30, 50, 'DUMMY', 2, getRandomColor()),
-	new Car(road.getLaneCenter(0), -1000, 30, 50, 'DUMMY', 2, getRandomColor()),
-	new Car(road.getLaneCenter(1), -1100, 30, 50, 'DUMMY', 2, getRandomColor()),
-	new Car(road.getLaneCenter(2), -1200, 30, 50, 'DUMMY', 2, getRandomColor()),
-	new Car(road.getLaneCenter(3), -1300, 30, 50, 'DUMMY', 2, getRandomColor()),
-	new Car(road.getLaneCenter(4), -1400, 30, 50, 'DUMMY', 2, getRandomColor()),
-	new Car(road.getLaneCenter(0), -1500, 30, 50, 'DUMMY', 2, getRandomColor()),
-	new Car(road.getLaneCenter(1), -1500, 30, 50, 'DUMMY', 2, getRandomColor()),
-	new Car(road.getLaneCenter(2), -1500, 30, 50, 'DUMMY', 2, getRandomColor()),
-];
+const traffic = [];
 setInterval(() => {
 	traffic.push(new Car(road.getLaneCenter(Math.floor(Math.random() * laneCount)), Math.floor(Math.random() * infinity) - 100, 30, 50, 'DUMMY', 2, getRandomColor()));
 }, 100);
@@ -49,10 +34,12 @@ animate();
 
 function save() {
 	localStorage.setItem('bestBrain', JSON.stringify(bestCar.brain));
+	location.reload();
 }
 
 function discard() {
 	localStorage.removeItem('bestBrain');
+	location.reload();
 }
 cars.push(new Car(road.getLaneCenter(2), 100, 30, 50, 'KEY', 15, 'red'));
 function generateCars(N) {
@@ -118,3 +105,20 @@ function multiplyAndMutate(brain) {
 		}
 	}
 }
+
+function getRandomLane(min, max) {
+	min = Math.ceil(min);
+	max = Math.floor(max);
+	return road.getLaneCenter(Math.floor(Math.random() * (max - min + 1) + min));
+}
+
+document.addEventListener('mousedown', e => {
+	if (!mouseDown) {
+		traffic.push(new Car(e.x - 100, bestCar.y - 500, 30, 50, 'DUMMY', 2, getRandomColor()));
+		mouseDown = false;
+	}
+});
+
+setInterval(() => {
+	traffic.push(new Car(getRandomLane(0, laneCount), bestCar.y - 500, 30, 50, 'DUMMY', 2, getRandomColor()));
+}, 500);
