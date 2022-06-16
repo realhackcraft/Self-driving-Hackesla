@@ -38,19 +38,6 @@ function save() {
 	localStorage.setItem('bestBrain', JSON.stringify(bestCar.brain));
 	location.reload();
 }
-function saveAll() {
-	for (i = 0; i < N; i++) {
-		localStorage.setItem(`carBrain${i}`, JSON.stringify(cars[i].brain));
-		localStorage.setItem('carAmount', i);
-	}
-}
-function loadAll() {
-	if (localStorage.getItem('bestBrain')) {
-		for (i = 0; i < localStorage.getItem('carAmount'); i++) {
-			cars[i].brain = localStorage.getItem(`carBrain${i}`);
-		}
-	}
-}
 
 function discard() {
 	localStorage.removeItem('bestBrain');
@@ -130,13 +117,6 @@ function getRandomLane(min, max) {
 	min = Math.ceil(min);
 	max = Math.floor(max);
 	return road.getLaneCenter(Math.floor(Math.random() * (max - min + 1) + min));
-}
-
-function copyBrain() {
-	navigator.clipboard.writeText(JSON.stringify(bestCar.brain));
-}
-function pasteBrain() {
-	multiplyAndMutate(navigator.clipboard.readText());
 }
 
 document.addEventListener('mousedown', e => {
