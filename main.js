@@ -12,15 +12,16 @@ var mouseDown = false;
 var drawRays = true;
 
 var death = 500;
-const N = 1000;
+const N = 500;
 var population = N;
 const cars = generateCars(N);
 let bestCar = cars[0];
+
 if (localStorage.getItem('bestBrain')) {
 	for (let i = 0; i < cars.length; i++) {
 		cars[i].brain = JSON.parse(localStorage.getItem('bestBrain'));
 		if (i != 0) {
-			NeuralNetwork.mutate(cars[i].brain, 0.1);
+			NeuralNetwork.mutate(cars[i].brain, 0.2);
 		}
 	}
 }
@@ -112,6 +113,14 @@ function getRandomLane(min, max) {
 	return road.getLaneCenter(Math.floor(Math.random() * (max - min + 1) + min));
 }
 
+function copyBrain() {
+	navigator.clipboard.writeText(JSON.stringify(bestCar.brain));
+}
+function pasteBrain() {
+	multiplyAndMutate(navigator.clipboard.readText());
+	save();
+}
+
 document.addEventListener('mousedown', e => {
 	if (!mouseDown) {
 		traffic.push(new Car(e.x - 100, bestCar.y - 500, 30, 50, 'DUMMY', 2, getRandomColor()));
@@ -121,4 +130,4 @@ document.addEventListener('mousedown', e => {
 
 setInterval(() => {
 	traffic.push(new Car(getRandomLane(0, laneCount), bestCar.y - 500, 30, 50, 'DUMMY', 2, getRandomColor()));
-}, 500);
+}, 2000);
