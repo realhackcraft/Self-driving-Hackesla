@@ -6,6 +6,7 @@ networkCanvas.width = 0.5 * innerWidth;
 const carCtx = carCanvas.getContext('2d');
 const networkCtx = networkCanvas.getContext('2d');
 
+const maxDummyCars = 100;
 const laneCount = 5;
 const road = new Road(carCanvas.width / 2, carCanvas.width * 0.9, laneCount);
 var mouseDown = false;
@@ -59,8 +60,10 @@ function animate(time) {
 	}
 	carCanvas.width = 0.3 * innerWidth;
 	networkCanvas.width = 0.5 * innerWidth;
-	if (traffic.length > 100) {
-		traffic.shift();
+	if (traffic.length > maxDummyCars) {
+		for (i = traffic.length; i > maxDummyCars; i--) {
+			traffic.shift();
+		}
 		console.log(traffic.length);
 	}
 	for (let i = 0; i < traffic.length; i++) {
