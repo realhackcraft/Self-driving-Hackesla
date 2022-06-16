@@ -22,7 +22,7 @@ if (localStorage.getItem('bestBrain')) {
 	for (let i = 0; i < cars.length; i++) {
 		cars[i].brain = JSON.parse(localStorage.getItem('bestBrain'));
 		if (i != 0) {
-			NeuralNetwork.mutate(cars[i].brain, 0.2);
+			NeuralNetwork.mutate(cars[i].brain, 0.1);
 		}
 	}
 }
@@ -38,12 +38,25 @@ function save() {
 	localStorage.setItem('bestBrain', JSON.stringify(bestCar.brain));
 	location.reload();
 }
+function saveAll() {
+	for (i = 0; i < N; i++) {
+		localStorage.setItem(`carBrain${i}`, JSON.stringify(cars[i].brain));
+		localStorage.setItem('carAmount', i);
+	}
+}
+function loadAll() {
+	if (localStorage.getItem('bestBrain')) {
+		for (i = 0; i < localStorage.getItem('carAmount'); i++) {
+			cars[i].brain = localStorage.getItem(`carBrain${i}`);
+		}
+	}
+}
 
 function discard() {
 	localStorage.removeItem('bestBrain');
 	location.reload();
 }
-cars.push(new Car(road.getLaneCenter(2), 100, 30, 50, 'KEY', 15, 'red'));
+
 function generateCars(N) {
 	const cars = [];
 	for (let i = 1; i <= N; i++) {
