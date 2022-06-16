@@ -6,6 +6,8 @@ networkCanvas.width = 0.5 * innerWidth;
 const carCtx = carCanvas.getContext('2d');
 const networkCtx = networkCanvas.getContext('2d');
 
+const eraseAi = document.getElementById('danger');
+
 const maxDummyCars = 100;
 const laneCount = 5;
 const road = new Road(carCanvas.width / 2, carCanvas.width * 0.9, laneCount);
@@ -52,8 +54,10 @@ function save() {
 }
 
 function discard() {
-	localStorage.removeItem('bestBrain');
-	location.reload();
+	if (confirm('Are You Sure You Want to Discard AI?\nThis Action Cannot Be Undone!')) {
+		localStorage.removeItem('bestBrain');
+		location.reload();
+	}
 }
 
 function generateCars(N) {

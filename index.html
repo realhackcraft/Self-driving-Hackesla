@@ -6,10 +6,10 @@
 <body>
     <canvas id="carCanvas"></canvas>
     <div id="verticalButtons">
-        <button onclick="save()">↓</button>
-        <button onclick="discard()">🗑️</button>
-        <button onclick="changeCarCount()">﹟</button>
-        <button onclick="toggleRays()" class="toggle">👀</button>
+        <button class="tooltip" onclick="save()">↓<span class="tooltiptext">Next Generation</span></button>
+        <button id="danger" class="tooltip" onclick="discard()">🗑️<span class="tooltiptext">Destroy AI</span></button>
+        <button class="tooltip" onclick="changeCarCount()">﹟<span class="tooltiptext">Change the Number of AIs</span></button>
+        <button class="tooltip" onclick="toggleRays()" class="toggle">👀<span class="tooltiptext">Show the Car's Vision</span></button>
     </div>
     <canvas id="networkCanvas"></canvas>
     <script src="visualizer.js"></script>
