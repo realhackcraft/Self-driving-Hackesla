@@ -26,7 +26,7 @@ if (localStorage.getItem('bestBrain')) {
 	}
 }
 
-const traffic = [];
+var traffic = [];
 setInterval(() => {
 	traffic.push(new Car(road.getLaneCenter(Math.floor(Math.random() * laneCount)), Math.floor(Math.random() * infinity) - 100, 30, 50, 'DUMMY', 2, getRandomColor()));
 }, 100);
@@ -59,6 +59,10 @@ function animate(time) {
 	}
 	carCanvas.width = 0.3 * innerWidth;
 	networkCanvas.width = 0.5 * innerWidth;
+	if (traffic.length > 100) {
+		traffic.shift();
+		console.log(traffic.length);
+	}
 	for (let i = 0; i < traffic.length; i++) {
 		traffic[i].update(road.borders, []);
 	}
