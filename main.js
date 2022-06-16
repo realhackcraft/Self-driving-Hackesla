@@ -7,6 +7,8 @@ const carCtx = carCanvas.getContext('2d');
 const networkCtx = networkCanvas.getContext('2d');
 
 const eraseAi = document.getElementById('danger');
+const toggleRaysBtn = document.getElementById('raysbtn');
+toggleRaysBtn.style.background = 'blue';
 
 const maxDummyCars = 100;
 const laneCount = 5;
@@ -116,8 +118,10 @@ function animate(time) {
 function toggleRays() {
 	if (drawRays) {
 		drawRays = false;
+		toggleRaysBtn.style.background = '#EFEFEF';
 	} else {
 		drawRays = true;
+		toggleRaysBtn.style.background = 'blue';
 	}
 }
 function multiplyAndMutate(brain) {
