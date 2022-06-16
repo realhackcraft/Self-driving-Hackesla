@@ -12,8 +12,14 @@ const road = new Road(carCanvas.width / 2, carCanvas.width * 0.9, laneCount);
 var mouseDown = false;
 var drawRays = true;
 
+if (localStorage.getItem('carCount')) {
+	var N = localStorage.getItem('carCount');
+} else {
+	var N = prompt('How many AI Cars?', 500);
+	localStorage.setItem('carCount', N);
+}
+
 var death = 500;
-const N = 500;
 var population = N;
 const cars = generateCars(N);
 let bestCar = cars[0];
@@ -33,6 +39,12 @@ setInterval(() => {
 }, 100);
 
 animate();
+
+function changeCarCount() {
+	var N = prompt('How many AI Cars?', 500);
+	localStorage.setItem('carCount', N);
+	location.reload();
+}
 
 function save() {
 	localStorage.setItem('bestBrain', JSON.stringify(bestCar.brain));
