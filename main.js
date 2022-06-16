@@ -64,7 +64,6 @@ function animate(time) {
 		for (i = traffic.length; i > maxDummyCars; i--) {
 			traffic.shift();
 		}
-		console.log(traffic.length);
 	}
 	for (let i = 0; i < traffic.length; i++) {
 		traffic[i].update(road.borders, []);
