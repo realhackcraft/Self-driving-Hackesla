@@ -128,4 +128,4 @@ document.addEventListener('mousedown', e => {
 
 setInterval(() => {
 	traffic.push(new Car(getRandomLane(0, laneCount), bestCar.y - 500, 30, 50, 'DUMMY', 2, getRandomColor()));
-}, 2000);
+}, 1000);
