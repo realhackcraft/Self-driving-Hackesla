@@ -43,6 +43,8 @@ button:hover {
   top: 150%;
   left: 50%;
   margin-left: -60px;
+  opacity: 0;
+  transition: opacity 1s;
 }
 .tooltip .tooltiptext::after {
   content: " ";
@@ -56,6 +58,7 @@ button:hover {
 }
 .tooltip:hover .tooltiptext {
   visibility: visible;
+  opacity: 1;
 }
 #danger:hover {
 background:red;
