@@ -137,7 +137,6 @@ function copyBrain() {
 }
 function pasteBrain() {
 	multiplyAndMutate(navigator.clipboard.readText());
-	save();
 }
 
 document.addEventListener('mousedown', e => {
