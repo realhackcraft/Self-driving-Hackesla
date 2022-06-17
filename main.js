@@ -8,13 +8,23 @@ const networkCtx = networkCanvas.getContext('2d');
 
 const eraseAi = document.getElementById('danger');
 const toggleRaysBtn = document.getElementById('raysbtn');
-toggleRaysBtn.style.background = 'blue';
 
 const maxDummyCars = 100;
 const laneCount = 5;
 const road = new Road(carCanvas.width / 2, carCanvas.width * 0.9, laneCount);
 var mouseDown = false;
-var drawRays = true;
+var drawRays = undefined;
+if (tuneSettings('drawRays', false, true) === undefined) {
+	drawRays = true;
+	toggleRaysBtn.style.background = 'blue';
+} else {
+	drawRays = JSON.parse(tuneSettings('drawRays', false, true));
+	if (drawRays) {
+		toggleRaysBtn.style.background = 'blue';
+	} else {
+		toggleRaysBtn.style.background = '#EFEFEF';
+	}
+}
 
 if (localStorage.getItem('carCount')) {
 	var N = localStorage.getItem('carCount');
@@ -53,6 +63,14 @@ function changeCarCount() {
 function save() {
 	localStorage.setItem('bestBrain', JSON.stringify(bestCar.brain));
 	location.reload();
+}
+
+function tuneSettings(name, value, read = false) {
+	if (read) {
+		return localStorage.getItem(name);
+	} else {
+		localStorage.setItem(name, value);
+	}
 }
 
 function discard() {
@@ -119,9 +137,11 @@ function toggleRays() {
 	if (drawRays) {
 		drawRays = false;
 		toggleRaysBtn.style.background = '#EFEFEF';
+		tuneSettings('drawRays', false);
 	} else {
 		drawRays = true;
 		toggleRaysBtn.style.background = 'blue';
+		tuneSettings('drawRays', true);
 	}
 }
 function multiplyAndMutate(brain) {
